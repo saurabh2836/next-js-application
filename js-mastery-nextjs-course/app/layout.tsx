@@ -2,9 +2,9 @@ import React from "react";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Inter, Space_Grotesk } from "next/font/google";
 import type { Metadata } from "next";
+
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeProvider";
-const clerkPubKey = "pk_test_bGl2ZS1sYWNld2luZy01NC5jbGVyay5hY2NvdW50cy5kZXYk";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,7 +36,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
         <ClerkProvider
-          publishableKey={clerkPubKey}
           appearance={{
             elements: {
               formButtonPrimary: "primary-gradient",
@@ -44,7 +43,7 @@ export default function RootLayout({
             },
           }}
         >
-          <ThemeProvider> {children}</ThemeProvider>
+          <ThemeProvider>{children}</ThemeProvider>
         </ClerkProvider>
       </body>
     </html>
