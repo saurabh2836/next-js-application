@@ -37,7 +37,7 @@ const questions = [
     author: {
       _id:'1',
       name:'saurabh kamble',
-      picture:"saurabh.jpg"
+      picture:"/saurabh.jpg"
     },
     upvotes: 10,
     views: 100,
@@ -54,7 +54,7 @@ const questions = [
     author: {
       _id:'1',
       name:'saurabh kamble',
-      picture:"saurabh.jpg"
+      picture:"/saurabh.jpg"
     },
     upvotes: 10,
     views: 100,
