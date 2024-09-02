@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import RenderTag from "../shared/RenderTag";
 import Metric from "../shared/Metric";
+import { getTimestamp, formatAndDivideNumber } from "@/lib/utils";
 
 interface QuestionProps {
   _id: number;
@@ -36,7 +37,7 @@ const QuestionsCard = ({
       <div className="sm:flex-now flex flex-col-reverse items-start justify-between gap-5">
         <div>
           <span className="subtle-regular text-dark-400_light700 line-clamp-1 flex sm:hidden">
-            {String(createdAt)}
+            {getTimestamp(createdAt)}
           </span>
           <Link href={`/question/${_id}`}>
             <h3 className="sm:h3-semibold base-semibold text-dark200_light900 line-clamp-2 flex-1">
@@ -55,30 +56,31 @@ const QuestionsCard = ({
       <div className="flex-between mt-6 w-full flex-wrap gap-3">
         <Metric
           ImgUrl="/assets/icons/avatar.svg"
-          alt="User"
+          alt="user"
           value={author.name}
-          title=" - asked 1 hour ago "
+          title={` - asked ${getTimestamp(createdAt)}`}
           href={`/profile/${author._id}`}
-          textStyles="small-medium text-dark400_light700"
+          isAuthor
+          textStyles="body-medium text-dark400_light700"
         />
         <Metric
           ImgUrl="/assets/icons/like.svg"
           alt="Upvotes"
-          value={upvotes}
+          value={formatAndDivideNumber(upvotes)}
           title="Votes"
           textStyles="small-medium text-dark400_light800"
         />
         <Metric
           ImgUrl="/assets/icons/message.svg"
           alt="messages"
-          value={answers.length}
+          value={formatAndDivideNumber(answers.length)}
           title="Answers"
           textStyles="small-medium text-dark400_light800"
         />
         <Metric
           ImgUrl="/assets/icons/eye.svg"
           alt="eye"
-          value={views}
+          value={formatAndDivideNumber(views)}
           title="Views"
           textStyles="small-medium text-dark400_light800"
         />
