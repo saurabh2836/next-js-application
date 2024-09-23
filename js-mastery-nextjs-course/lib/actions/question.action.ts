@@ -4,12 +4,24 @@ import Question from "@/database/question.model";
 import Tag from "@/database/tag.model";
 import User from "@/database/user.model";
 import { connectToDatabase } from "../mongoose";
+import { CreateQuestionParams, GetQuestionsParams } from "./shared.types";
 
-export async function createQuestion(params: any) {
+export async function getQuestions(params: GetQuestionsParams) {
   try {
     connectToDatabase();
 
-    const { title, content, tags, author, path } = params;
+    const questions = await Question.find({})
+      .populate({ path: "tags", model: Tag })
+      .populate({ path: "author", model: User });
+    return { questions };
+  } catch (error) {}
+}
+
+export async function createQuestion(params: CreateQuestionParams) {
+  try {
+    connectToDatabase();
+
+    const { title, content, tags, author } = params;
 
     const question = await Question.create({
       title,
@@ -17,6 +29,8 @@ export async function createQuestion(params: any) {
       author,
     });
 
+    console.log("question", question);
+    console.log("question.createdAt", question.createdAt);
     const tagDocuments = [];
 
     for (const tag of tags) {

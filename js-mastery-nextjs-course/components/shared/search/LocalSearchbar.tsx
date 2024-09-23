@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 
@@ -18,8 +18,6 @@ const LocalSearchbar = ({
   placeholder,
   otherClasses,
 }: CustomInputProps) => {
-  const [state, setState] = useState(0);
-
   return (
     <div
       className={`background-light800_darkgradient flex min-h-[56px] grow items-center gap-4 rounded-[10px] px-4  ${otherClasses}`}
@@ -36,9 +34,6 @@ const LocalSearchbar = ({
       <Input
         type="text"
         placeholder={placeholder}
-        value=""
-        defaultValue={state}
-        onChange={(e) => setState(0)}
         className="no-focus placeholder  paragraph-regular background-light800_darkgradient  border-none shadow-none outline-none"
       />
     </div>

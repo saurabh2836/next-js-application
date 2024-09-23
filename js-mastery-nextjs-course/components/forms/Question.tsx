@@ -20,11 +20,17 @@ import { Editor } from "@tinymce/tinymce-react";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
 import { createQuestion } from "@/lib/actions/question.action";
+import { useRouter, usePathname } from "next/navigation";
+interface Props {
+  mongoUserId: string;
+}
 
 const type: any = "create";
-const Question = () => {
+const Question = ({ mongoUserId }: Props) => {
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
   const log = () => {
     if (editorRef.current) {
@@ -44,7 +50,15 @@ const Question = () => {
     setIsSubmitting(true);
     console.log("values", values);
     try {
-      await createQuestion({});
+      await createQuestion({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        author: JSON.parse(mongoUserId),
+        path: pathname,
+      });
+
+      router.push("/");
     } catch (error) {
     } finally {
       setIsSubmitting(false);
@@ -122,7 +136,7 @@ const Question = () => {
           render={({ field }) => (
             <FormItem className="flex w-full flex-col ">
               <FormLabel className="paragraph-semibold text-dark400_light800 ">
-                Detailed expnation of your problem
+                Detailed explanation of your problem
                 <span className="text-primary-500">*</span>
               </FormLabel>
               <FormControl className="mt-3.5">
