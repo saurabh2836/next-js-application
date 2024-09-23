@@ -61,6 +61,8 @@ export async function POST(req: Request) {
   console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
   console.log("Webhook body:", body);
 
+/*eslint camelcase: ["error", {ignoreDestructuring: true}]*/
+
   if (eventType === "user.created") {
     const { id, email_addresses, image_url, username, first_name, last_name } =
       evt.data;
@@ -73,6 +75,7 @@ export async function POST(req: Request) {
       email: email_addresses[0].email_address,
       picture: image_url,
     });
+    return NextResponse.json({ message: 'OK', user: mongoUser})
   }
 
   if (eventType === "user.updated") {
@@ -103,4 +106,6 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ message: "Ok", user: deletedUser });
   }
+
+  return new Response('', { status: 201 })
 }
