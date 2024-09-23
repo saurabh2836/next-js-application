@@ -7,7 +7,8 @@ const nextConfig = {
           },
         mdxRs:true,
         serverComponentsExternalPackages:['mongoose']
-       }
+       },
+       swcMinify: true,
 };
 
 export default nextConfig;
