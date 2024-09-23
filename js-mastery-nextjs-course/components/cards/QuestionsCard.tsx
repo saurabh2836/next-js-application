@@ -8,7 +8,7 @@ interface QuestionProps {
   _id: number;
   title: string;
   tags: {
-    _id: string;
+    _id: number;
     name: string;
   }[];
   author: {

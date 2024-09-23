@@ -1,3 +1,6 @@
+/* eslint-disable */
+
+
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
@@ -84,7 +87,7 @@ export async function POST(req: Request) {
 
     const mongoUser = await updateUser({
       clerkId: id,
-      updateDate: {
+      updateData: {
         name: `${first_name}${last_name ? ` ${last_name}` : ""}`,
         ...(last_name ? { last_name } : {}),
         username: username!,

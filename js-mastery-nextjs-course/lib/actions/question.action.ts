@@ -14,7 +14,11 @@ export async function getQuestions(params: GetQuestionsParams) {
       .populate({ path: "tags", model: Tag })
       .populate({ path: "author", model: User });
     return { questions };
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    throw error;
+
+  }
 }
 
 export async function createQuestion(params: CreateQuestionParams) {

@@ -10,59 +10,59 @@ import NoResult from "@/components/shared/NoResult";
 import QuestionCard from "@/components/cards/QuestionsCard";
 import { getQuestions } from "@/lib/actions/question.action";
 
-const questions = [
-  {
-    _id: 1,
-    title: "Cascading Deletes in SQLAlchemy ? ",
-    tags: [
-      { _id: "1", name: "python" },
-      { _id: "2", name: "sql" },
-    ],
-    author: {
-      _id: "1",
-      name: "saurabh kamble",
-      picture: "/saurabh.jpg",
-    },
-    upvotes: 1000000,
-    views: 100000000,
-    answers: [],
-    createdAt: new Date("2021-09-01T12:00:00.00Z"),
-  },
-  {
-    _id: 2,
-    title: "How to center a div ? ",
-    tags: [
-      { _id: "1", name: "html" },
-      { _id: "2", name: "css" },
-    ],
-    author: {
-      _id: "1",
-      name: "saurabh kamble",
-      picture: "/saurabh.jpg",
-    },
-    upvotes: 5000000,
-    views: 500000000,
-    answers: [],
-    createdAt: new Date("2021-09-01T12:00:00.00Z"),
-  },
-  {
-    _id: 3,
-    title: "Cascading Deletes in SQLAlchemy ? ",
-    tags: [
-      { _id: "1", name: "python" },
-      { _id: "2", name: "sql" },
-    ],
-    author: {
-      _id: "1",
-      name: "saurabh kamble",
-      picture: "/saurabh.jpg",
-    },
-    upvotes: 7000000,
-    views: 700000000,
-    answers: [],
-    createdAt: new Date("2021-09-01T12:00:00.00Z"),
-  },
-];
+// const questions = [
+//   {
+//     _id: 1,
+//     title: "Cascading Deletes in SQLAlchemy ? ",
+//     tags: [
+//       { _id: "1", name: "python" },
+//       { _id: "2", name: "sql" },
+//     ],
+//     author: {
+//       _id: "1",
+//       name: "saurabh kamble",
+//       picture: "/saurabh.jpg",
+//     },
+//     upvotes: 1000000,
+//     views: 100000000,
+//     answers: [],
+//     createdAt: new Date("2021-09-01T12:00:00.00Z"),
+//   },
+//   {
+//     _id: 2,
+//     title: "How to center a div ? ",
+//     tags: [
+//       { _id: "1", name: "html" },
+//       { _id: "2", name: "css" },
+//     ],
+//     author: {
+//       _id: "1",
+//       name: "saurabh kamble",
+//       picture: "/saurabh.jpg",
+//     },
+//     upvotes: 5000000,
+//     views: 500000000,
+//     answers: [],
+//     createdAt: new Date("2021-09-01T12:00:00.00Z"),
+//   },
+//   {
+//     _id: 3,
+//     title: "Cascading Deletes in SQLAlchemy ? ",
+//     tags: [
+//       { _id: "1", name: "python" },
+//       { _id: "2", name: "sql" },
+//     ],
+//     author: {
+//       _id: "1",
+//       name: "saurabh kamble",
+//       picture: "/saurabh.jpg",
+//     },
+//     upvotes: 7000000,
+//     views: 700000000,
+//     answers: [],
+//     createdAt: new Date("2021-09-01T12:00:00.00Z"),
+//   },
+// ];
 
 export default async function Home() {
   const result = await getQuestions({});
@@ -106,7 +106,7 @@ export default async function Home() {
               author={questions.author}
               upvotes={questions.upvotes}
               views={questions.views}
-              answers={questions.answers}
+              answer={questions.answer}
               createdAt={questions.createdAt}
             />
           ))
