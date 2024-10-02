@@ -1,8 +1,6 @@
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
-
 import { Button } from "@/components/ui/button";
 import Filter from "@/components/shared/Filter";
-
 import Link from "next/link";
 import { HomePageFilters } from "@/constants/filter";
 import HomeFilters from "@/components/home/HomeFilters";
@@ -67,7 +65,6 @@ import { getQuestions } from "@/lib/actions/question.action";
 export default async function Home() {
   const result = await getQuestions({});
 
-  console.log(result.questions);
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -106,7 +103,7 @@ export default async function Home() {
               author={questions.author}
               upvotes={questions.upvotes}
               views={questions.views}
-              answer={questions.answer}
+              answers={questions.answer}
               createdAt={questions.createdAt}
             />
           ))

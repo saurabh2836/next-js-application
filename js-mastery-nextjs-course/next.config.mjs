@@ -9,6 +9,18 @@ const nextConfig = {
         serverComponentsExternalPackages:['mongoose']
        },
        swcMinify: true,
+       images:{
+        remotePatterns:[
+          {
+            protocol:'https',
+            hostname:'*'
+          },
+          {
+            protocol:'http',
+            hostname:'*'
+          }
+        ]
+       }
 };
 
 export default nextConfig;

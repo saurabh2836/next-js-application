@@ -22,7 +22,7 @@ const LeftSidebar = () => {
           return (
             <Link
               key={item.route}
-              href={item.label}
+              href={item.route}
               className={`${
                 isActive
                   ? "primary-gradient text-light-900 rounded-lg"

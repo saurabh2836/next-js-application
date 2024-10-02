@@ -33,8 +33,6 @@ export async function createQuestion(params: CreateQuestionParams) {
       author,
     });
 
-    console.log("question", question);
-    console.log("question.createdAt", question.createdAt);
     const tagDocuments = [];
 
     for (const tag of tags) {
