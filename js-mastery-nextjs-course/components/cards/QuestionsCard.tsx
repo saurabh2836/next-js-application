@@ -35,7 +35,6 @@ const QuestionCard = ({
   answers,
   createdAt
 }: QuestionProps) => {
-
   return (
     <div className="card-wrapper rounded-[10px] p-9 sm:px-11">
       <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
@@ -60,9 +59,9 @@ const QuestionCard = ({
 
       <div className="flex-between mt-6 w-full flex-wrap gap-3">
           <Metric 
-            imgUrl={author.picture}
+            imgUrl={author[0]?.picture}
             alt="user"
-            value={author.name}
+            value={author[0]?.name}
             title={` - asked ${getTimestamp(createdAt)}`}
             href={`/profile/${author._id}`}
             isAuthor
