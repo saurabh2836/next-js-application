@@ -8,7 +8,6 @@ import NoResult from '@/components/shared/NoResult';
 
 const page = async () => {
     const result = await getAllTags({});
-    console.log("result",result.tags)
     return (
         <>
             <h1 className="h1-bold text-dark100_light900 "> All Tags</h1>

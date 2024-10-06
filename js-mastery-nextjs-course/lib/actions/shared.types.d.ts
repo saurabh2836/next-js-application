@@ -7,7 +7,7 @@ export interface CreateAnswerParams {
   content: string;
   author: string; // User ID
   question: string; // Question ID
-  path: string;
+  path?: string;
 }
 
 export interface GetAnswersParams {
@@ -22,7 +22,7 @@ export interface AnswerVoteParams {
   userId: string;
   hasupVoted: boolean;
   hasdownVoted: boolean;
-  path: string;
+  path?: string;
 }
 
 export interface DeleteAnswerParams {
@@ -76,7 +76,7 @@ export interface QuestionVoteParams {
   userId: string;
   hasupVoted: boolean;
   hasdownVoted: boolean;
-  path: string;
+  path?: string;
 }
 
 export interface DeleteQuestionParams {
