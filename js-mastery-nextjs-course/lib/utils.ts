@@ -52,3 +52,12 @@ export const formatAndDivideNumber = (num: number): string => {
     return num.toString();
   }
 };
+
+export const getJoinedDate = (date: Date): string=>{
+   // Get the month and year from the Date object
+   const month = date.toLocaleString('default', { month: 'long' }); // e.g., "October"
+   const year = date.getFullYear(); // e.g., 2024
+ 
+   // Return the formatted string
+   return `${month} ${year}`;
+}
