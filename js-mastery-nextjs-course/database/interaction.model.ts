@@ -19,7 +19,7 @@ const InteractionSchema = new Schema({
     createdAt:{type:Date,default:Date.now}
 });
 
-const Interaction = models.Interfaction ||  model('Interaction',InteractionSchema)
+const Interaction = models.Interaction ||  model('Interaction',InteractionSchema)
 
 export default Interaction;
 

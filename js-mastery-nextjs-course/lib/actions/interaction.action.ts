@@ -11,8 +11,7 @@ export async function viewQuestion(params:ViewQuestionParams){
     try{
         await connectToDatabase();
         const { questionId,userId } = params;
-            console.log("questionId",questionId);
-            console.log("userId",userId);
+     
         // update view count for that question 
         await Question.findByIdAndUpdate (questionId,{$inc:{views:1}});
 
@@ -22,7 +21,6 @@ export async function viewQuestion(params:ViewQuestionParams){
                 action:"view",
                 question:questionId
             })
-            console.log("existingInterfaction",existingInterfaction);
             if(existingInterfaction) return console.log("User has already viewed.")
 
                 // Create interaction
@@ -31,8 +29,6 @@ export async function viewQuestion(params:ViewQuestionParams){
                 action:"view",
                 qustion:questionId
             })
-            console.log("Interaction",Interaction);
-
         }
     }catch(error){
         console.log("error",error);

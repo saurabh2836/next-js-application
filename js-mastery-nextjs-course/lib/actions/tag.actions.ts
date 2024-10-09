@@ -61,11 +61,39 @@ export async function getQuestionByTags(params:GetQuestionsByTagIdParams) {
       if(!tag) {
         throw new Error('Tag not found');
       }
-      console.log("tag",tag);
       const questions = tag.question;
       return { tagTitle:tag.name,questions };
     }catch(error){
         console.log("error",error);
         throw error;
     }
+}
+
+export  async function getTopPopularTags(){
+  try{
+    connectToDatabase();
+
+    const PopularTags = await Tag.aggregate([
+      {
+        $project: {
+          name: 1,
+          numberOfQuestions: {
+            $cond: {
+              if: { $isArray: "$questions" },
+              then: { $size: "$questions" },
+              else: 0
+            }
+          }
+        }
+      },
+      { $sort: { numberOfQuestions: -1 } },
+      { $limit: 5 }
+    ]);
+    
+
+    return PopularTags;
+  }catch(error){
+    console.log("error",error);
+    throw error;
+  }
 }
