@@ -15,6 +15,7 @@ export interface GetAnswersParams {
   sortBy?: string;
   page?: number;
   pageSize?: number;
+  
 }
 
 export interface AnswerVoteParams {

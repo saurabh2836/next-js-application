@@ -1,19 +1,26 @@
-import QuestionCard from "@/components/cards/QuestionCard";
+import QuestionCard from "@/components/cards/QuestionsCard";
 import Filter from "@/components/shared/Filter";
 import NoResult from "@/components/shared/NoResult";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
-import { QuestionFilters } from "@/constants/filters";
+import { QuestionFilters } from "@/constants/filter";
 import { getSavedQuestions } from "@/lib/actions/user.action";
-import { auth } from '@clerk/nextjs'
-
-export default async function Home() {
+import { SearchParamsProps } from "@/types";
+import { auth } from '@clerk/nextjs/server'
+import type { Metadata } from "next";
+export const  metadata: Metadata = {
+  title:'Collection | Dev Overflow'
+}
+export default async function Home({searchParams}:SearchParamsProps) {
   const { userId } = auth();
 
   if(!userId) return null;
 
   const result = await getSavedQuestions({
     clerkId: userId,
+    searchQuery:searchParams.q,
+    filter:searchParams.filter
   });
+
 
   return (
     <>
@@ -36,7 +43,7 @@ export default async function Home() {
 
       <div className="mt-10 flex w-full flex-col gap-6">
         {result.questions.length > 0 ?
-          result.questions.map((question) => (
+          result.questions.map((question:any) => (
             <QuestionCard 
               key={question._id}
               _id={question._id}
@@ -45,7 +52,7 @@ export default async function Home() {
               author={question.author}
               upvotes={question.upvotes}
               views={question.views}
-              answers={question.answers}
+              answers={question.answer}
               createdAt={question.createdAt}
             />
           ))

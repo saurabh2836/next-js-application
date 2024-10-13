@@ -94,6 +94,8 @@ const result = await getQuestionById({questionId:params.id})
             questionId = {result._id}
             userId={mongoUser._id}
             totalAnswer ={result.answer.length}
+            page ={searchParams?.page}
+            filter={searchParams?.filter}
         />
           <Answer
             question ={result.content}

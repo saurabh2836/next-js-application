@@ -7,17 +7,27 @@ import { AnswerVoteParams, CreateAnswerParams, DeleteAnswerParams, GetAnswersPar
 import Answer from "@/database/answer.model";
 import { revalidatePath } from "next/cache";
 import Interaction from "@/database/interaction.model";
+import User from "@/database/user.model";
 
 export async function createAnswer(params:CreateAnswerParams){
     try {
         connectToDatabase();
         const { content,author,question,path} = params;
         const newAnswer = await Answer.create({content,author,question});
-        
-        //Add the answer to the question's answer array 
-        await Question.findByIdAndUpdate(question , {
-            $push:{ answer:newAnswer.question}
+
+        // Add the answer to the question's answer array 
+        const questionObject = await Question.findByIdAndUpdate(question , {
+            $push:{ answer:newAnswer._id}
         })
+
+        await Interaction.create({
+          user:author,
+          action:"answer",
+          question,
+          answer:newAnswer._id,
+          tags:questionObject.tags
+        })
+          await User.findByIdAndUpdate(author,{$inc:{reputation:10}})
         revalidatePath(path);
 
     }catch(error){
@@ -30,10 +40,30 @@ export async function getAnswers(params:GetAnswersParams){
     try{
             connectToDatabase();
             
-            const { questionId} = params;
+            const { questionId,sortBy} = params;
+            let sortOptions = {};
+
+    switch(sortBy){
+          case"highestUpvotes":
+            sortOptions = { upvotes:-1}
+          break;
+          case"lowestUpvotes":
+            sortOptions = { upvotes:1}
+          break;
+          case"recent":
+          sortOptions= { createdAt:-1} // 1 ascending -1 descending
+          break;
+          case"old":
+          sortOptions = { createdAt:1}
+          break;
+        
+          default:
+          break;
+    }
+
             const answer = await Answer.find({question:questionId})
             .populate("author","_id clerkId name picture")
-            .sort({createdAt:-1})
+            .sort(sortOptions)
             return {answer}
     }catch(error){
         console.log("error",error);
@@ -67,6 +97,17 @@ export async function upvoteAnswer(params: AnswerVoteParams){
       if(!answer){
         throw new Error(`Answer not found`);
       }
+
+      // Increment author's reputation
+
+      await User.findByIdAndUpdate(userId,{
+        $inc:{reputation:hasupVoted ? -2: 2}
+      })
+      await User.findByIdAndUpdate(answer.author,{
+        $inc:{reputation:hasupVoted ? -10: 10}
+      })
+
+
   
     }catch(error){
       console.log("Error",error)
@@ -98,6 +139,13 @@ export async function upvoteAnswer(params: AnswerVoteParams){
       if(!answer){
         throw new Error(`Answer not Found`);
       }
+
+      await User.findByIdAndUpdate(userId,{
+        $inc:{reputation:hasdownVoted ? -2: 2}
+      })
+      await User.findByIdAndUpdate(answer.author,{
+        $inc:{reputation:hasdownVoted ? -10: 10}
+      })
       revalidatePath(path)
     }catch(error){
       console.log("Error",error)

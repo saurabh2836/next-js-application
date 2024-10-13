@@ -6,10 +6,52 @@ import { HomePageFilters } from "@/constants/filter";
 import HomeFilters from "@/components/home/HomeFilters";
 import NoResult from "@/components/shared/NoResult";
 import QuestionCard from "@/components/cards/QuestionsCard";
-import { getQuestions } from "@/lib/actions/question.action";
+import { getQuestions, getRecommendedQuestions } from "@/lib/actions/question.action";
+import { SearchParamsProps } from "@/types";
+import Pagination from "@/components/shared/Pagination";
+import Loading from "./loading";
 
-export default async function Home() {
-  const result = await getQuestions({});
+import type { Metadata } from "next";
+import { auth } from "@clerk/nextjs/server";
+
+export const metadata: Metadata = {
+  title: "Home | DevOverflow",
+  description: "DevOverflow is a community for developers to ask and answer questions. Join us",
+}
+
+export default async function Home({ searchParams }: SearchParamsProps) {
+  
+  const  { userId} = auth();
+
+  let result;
+
+  if (searchParams?.filter === 'recommended') {
+    if (userId) {
+      result = await getRecommendedQuestions({
+        userId,
+        searchQuery: searchParams.q,
+        page: searchParams.page ? +searchParams.page : 1
+      });
+    }else{
+      result = {
+        question:[],
+        isNext:false
+      }
+    }
+  } else {
+    result = await getQuestions({
+      searchQuery: searchParams.q,
+      filter: searchParams.filter,
+      page: searchParams.page ? +searchParams.page : 1
+    });
+
+  }
+
+
+
+  // const isLoading = true;
+
+  // if(isLoading) return <Loading />
 
   return (
     <>
@@ -61,6 +103,12 @@ export default async function Home() {
             linkTitle="Ask a Question"
           />
         )}
+      </div>
+      <div className="mt-10">
+        <Pagination
+          pageNumber={searchParams?.page ? +searchParams.page : 1}
+          isNext={result.isNext}
+        />
       </div>
     </>
   );

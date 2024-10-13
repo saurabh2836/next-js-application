@@ -4,6 +4,7 @@ import RightSidebar from "@/components/shared/RightSidebar";
 import React from "react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from '@vercel/analytics/react';
+import { Toaster } from "@/components/ui/toaster"
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -18,7 +19,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </section>
         <RightSidebar />
       </div>
-      Toaster
+     <Toaster />
     </main>
   );
 };

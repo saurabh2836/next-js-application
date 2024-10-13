@@ -28,8 +28,46 @@ export async function getTopInteractedTags(params:GetTopInteractedTagsParams){
 export async function getAllTags (params:GetAllTagsParams){
 try{
     connectToDatabase();
-    const tags = await Tag.find({});
-    return {tags};
+
+    const {searchQuery,filter, page =1 ,pageSize=2}  = params;
+    const query:FilterQuery<typeof Tag>= {};
+    const skipAmount = (page -1 ) * pageSize;
+
+    if(searchQuery){
+      query.$or=[{name:{$regex:new RegExp(searchQuery,'i')}}]
+    }
+
+    let sortOptions = {};
+
+    switch(filter){
+          case"popular":
+            sortOptions = { question:-1}
+          break;
+          case"recent":
+            sortOptions = { createdAt:-1}
+          break;
+          case"name":
+          sortOptions= { name:1} // 1 ascending -1 descending
+          break;
+          case"old":
+          sortOptions = { createdAt:1}
+          break;
+        
+          default:
+          break;
+    }
+  
+
+    const tags = await Tag.find(query)
+    .skip(skipAmount)
+    .limit(pageSize)
+    .sort(sortOptions);
+
+    const totalTags = await  Tag.countDocuments(query);
+    const isNext = totalTags > skipAmount +tags.length;
+
+
+    return {tags,isNext};
 
 }catch(error){
     console.log("error",error);
@@ -43,6 +81,9 @@ export async function getQuestionByTags(params:GetQuestionsByTagIdParams) {
 
         const { tagId,page=1,pageSize=10,searchQuery} = params; 
 
+
+        const skipAmount = (page -1 ) * pageSize;
+
         const tagFilter : FilterQuery<ITag> = { _id:tagId}
 
       const tag = await Tag.findOne(tagFilter).populate({
@@ -52,6 +93,8 @@ export async function getQuestionByTags(params:GetQuestionsByTagIdParams) {
         ? { title:{$regex:searchQuery,$options:'i'}} :{},
         options: {
           sort: { createdAt: -1 },
+          skip:skipAmount,
+          limit:pageSize +1 
         },
         populate:[
           {path:'tags', model:Tag,select:"_id name"},
@@ -61,8 +104,10 @@ export async function getQuestionByTags(params:GetQuestionsByTagIdParams) {
       if(!tag) {
         throw new Error('Tag not found');
       }
+      const isNext = tag.question.length > pageSize;
+      
       const questions = tag.question;
-      return { tagTitle:tag.name,questions };
+      return { tagTitle:tag.name,questions,isNext };
     }catch(error){
         console.log("error",error);
         throw error;
@@ -79,8 +124,8 @@ export  async function getTopPopularTags(){
           name: 1,
           numberOfQuestions: {
             $cond: {
-              if: { $isArray: "$questions" },
-              then: { $size: "$questions" },
+              if: { $isArray: "$question" },
+              then: { $size: "$question" },
               else: 0
             }
           }

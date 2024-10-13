@@ -5,7 +5,11 @@ import { getUserById } from '@/lib/actions/user.action';
 import { ParamsProps } from '@/types';
 import { auth } from '@clerk/nextjs/server'
 import React from 'react'
+import type { Metadata } from "next";
 
+export const  metadata: Metadata = {
+  title:'Profile Page | Dev Overflow'
+}
 const page = async ({params}:ParamsProps) => {
 const {  userId} =  auth();
 
@@ -13,7 +17,7 @@ if(!userId) return null;
 
 const mongoUser = await getUserById({userId});
 
-const result = await getQuestionById({questionId:params.id})
+// const result = await getQuestionById({questionId:params.id})
 
 
   return (

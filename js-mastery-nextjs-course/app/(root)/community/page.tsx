@@ -5,10 +5,27 @@ import { UserFilters } from "@/constants/filter";
 import Link from "next/link";
 import { getAllUsers } from '@/lib/actions/user.action';
 import Usercard from '@/components/cards/Usercard';
+import { SearchParamsProps } from '@/types';
+import Pagination from '@/components/shared/Pagination';
+import Loading from './loading';
 
-const page = async () => {
-    const result = await getAllUsers({});
+import type { Metadata } from 'next';
 
+export const  metadata: Metadata = {
+    title:'Community | Dev Overflow'
+}
+
+
+const page = async ({searchParams}:SearchParamsProps) => {
+    const result = await getAllUsers({
+        searchQuery:searchParams.q,
+        filter:searchParams.filter,
+        page:searchParams.page ? +searchParams.page : 1
+    });
+
+//   const isLoading = true;
+//   if(isLoading) return <Loading />
+  
     return (
         <>
             <h1 className="h1-bold text-dark100_light900 "> All Users</h1>
@@ -37,6 +54,10 @@ const page = async () => {
                 </div>
                     )}
             </section>
+            <Pagination
+            pageNumber = {searchParams?.page ? +searchParams.page: 1}
+            isNext = {result.isNext}
+      />
         </>
     )
 }

@@ -18,7 +18,7 @@ interface Props {
 
 const Usercard = async ({ user }: Props) => {
     const interactedTags = await getTopInteractedTags({ userId: user._id })
-    console.log("interactedTags ",interactedTags)
+    
     return (
          <Link href={`/profile/${user.clerkId}`}
                 className="shadow-light100_darknone w-full max-xs:min-w-full xs:w-[260px] " >
