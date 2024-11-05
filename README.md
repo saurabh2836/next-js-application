@@ -67,22 +67,32 @@ Inspired by tutorials from **JS Mastery.**
 Clone the repository:
 
 bash
+
 Copy code
-git clone https://github.com/your-repo/devoverflow.git
+
+git clone https://github.com/saurabh2836/next-js-application
+
 cd devoverflow
+
 Install dependencies:
 
 bash
+
 Copy code
+
 npm install
-Set up environment variables:
+
+**Set up environment variables:**
 
 Add your MongoDB and Clerk credentials to a .env.local file.
-Run the development server:
+
+**Run the development server:**
 
 bash
 Copy code
+
 npm run dev
+
 Open your browser to http://localhost:3000 to see the project live.
 
 🌐 Deployment
