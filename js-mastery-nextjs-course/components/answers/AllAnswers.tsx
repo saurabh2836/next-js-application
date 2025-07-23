@@ -1,0 +1,60 @@
+
+
+import { AnswerFilters } from "@/constants/filter";
+import { EMPTY_ANSWER } from "@/constants/stats";
+
+import AnswerCard from "../cards/AnswerCard";
+import DataRender from "../DataRenderer";
+import CommonFilter from "../filters/CommonFilter";
+import Pagination from "../Pagination";
+import { success } from "zod";
+
+interface Props extends ActionResponse<Answer[ ]>{
+    page: number;
+    isNext: boolean;  
+    totalPages: number;
+}
+
+
+const AllAnswers = ({
+    page,
+    isNext,
+    data,
+    success,
+    error,
+    totalAnswers,
+}: Props) => {
+        return 
+
+        <div className="mt-11">
+            <div className="flex items-center justify-between">
+                <h3 className="primay-text-gradient">
+                  {totalAnswers} {totalAnswers === 1 ? "Answer" : "Answers"}
+               </h3>
+                <CommonFilter
+                    filters={AnswerFilters}
+                    otherClasses="sm:min-w-32"
+                    containerClasses="max-xs:w-full"
+                />  
+
+                <DataRender
+                    data={data}
+                    success={success}
+                    error={error}
+                    emptyData={EMPTY_ANSWER}
+                    render={(answers) =>
+                        answers.map((answer) => (
+                            <AnswerCard
+                                key={answer._id}
+                                {...answer}
+                            />)
+                        }
+                />
+
+                <Pagination page={page} isNext={isNext} />
+            
+        </div>
+    );   
+}
+
+export default AllAnswers;
