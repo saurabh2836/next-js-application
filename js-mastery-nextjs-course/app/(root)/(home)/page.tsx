@@ -9,7 +9,6 @@ import QuestionCard from "@/components/cards/QuestionsCard";
 import { getQuestions, getRecommendedQuestions } from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
 import Pagination from "@/components/shared/Pagination";
-import Loading from "./loading";
 
 import type { Metadata } from "next";
 import { auth } from "@clerk/nextjs/server";
@@ -34,7 +33,7 @@ export default async function Home({ searchParams }: SearchParamsProps) {
       });
     }else{
       result = {
-        question:[],
+        questions:[],
         isNext:false
       }
     }
@@ -58,7 +57,7 @@ export default async function Home({ searchParams }: SearchParamsProps) {
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
         <h1 className="h1-bold text-dark100_light900 "> All Questions</h1>
         <Link href="/ask-question" className="flex justify-end max-sm:w-full">
-          <Button className="primary-gradient  text-light-900 min-h-[46px] px-4  py-3">
+          <Button className="primary-gradient  text-dark100_light900 min-h-[46px] px-4  py-3">
             Ask a Question
           </Button>
         </Link>

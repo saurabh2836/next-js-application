@@ -4,18 +4,19 @@ import Question from "@/database/question.model";
 import Tag from "@/database/tag.model";
 import User from "@/database/user.model";
 import { connectToDatabase } from "../mongoose";
-import { CreateQuestionParams, DeleteQuestionParams, EditQuestionParams, GetQuestionByIdParams, GetQuestionsParams, QuestionVoteParams } from "./shared.types";
+import { CreateQuestionParams, DeleteQuestionParams, EditQuestionParams, GetQuestionByIdParams, GetQuestionsParams, QuestionVoteParams, RecommendedParams } from "./shared.types";
 import { revalidatePath } from "next/cache";
 import Answer from "@/database/answer.model";
 import Interaction from "@/database/interaction.model";
 import { FilterQuery } from "mongoose";
+import { usePathname } from "next/navigation";
 
 export async function getQuestions(params: GetQuestionsParams) {
   try {
     connectToDatabase();
 const {searchQuery,filter, page =1 ,pageSize=20} =  params;
 
-//Calculate the number of posts to skip  based on the current page and page size
+// Calculate the number of posts to skip  based on the current page and page size
 
 const skipAmount = (page -1 ) * pageSize;
 
@@ -157,8 +158,6 @@ export async function upvoteQuestion(params: QuestionVoteParams){
      await User.findByIdAndUpdate(question.author,{
       $inc:{reputation:hasupVoted ? -10: 10}
      })
-
-
 
     revalidatePath(path)
   }catch(error){

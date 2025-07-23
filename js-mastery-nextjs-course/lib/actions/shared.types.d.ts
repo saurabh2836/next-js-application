@@ -77,7 +77,7 @@ export interface QuestionVoteParams {
   userId: string;
   hasupVoted: boolean;
   hasdownVoted: boolean;
-  path?: string;
+  path: string;
 }
 
 export interface DeleteQuestionParams {

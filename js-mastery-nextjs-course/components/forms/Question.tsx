@@ -255,7 +255,7 @@ console.log("parsedQuestionDetails",parsedQuestionDetails);
         />
         <Button
           type="submit"
-          className="primary-gradient !text-light-900 w-fit "
+          className=" text-light-900 primary-gradient w-fit  "
           disabled={isSubmitting}
         >
           {isSubmitting ? (
